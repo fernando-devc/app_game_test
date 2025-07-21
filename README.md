@@ -20,11 +20,7 @@ This is a RESTful API built with [NestJS](https://nestjs.com/) and [Prisma ORM](
 ### Installation
 
 1. **Clone the repository:**
-    ```bash
-    git clone <your-repo-url>
-    cd <project-folder>
-    ```
-
+   
 2. **Install dependencies:**
     ```bash
     npm install
@@ -80,10 +76,10 @@ You can use tools like [Postman](https://www.postman.com/) or [Insomnia](https:/
 
 ```
 src/
-  modules/      # Feature modules
-  main.ts       # Entry point
+  modules/     
+  main.ts      
 prisma/
-  schema.prisma # Prisma schema
+  schema.prisma
 prisma/models
-.env            # Environment variables
+.env           
 ```
