@@ -20,7 +20,7 @@ export interface GamesListResponse {
   pagination: {
     currentPage: number;
     totalPages: number;
-    totalItems: number;
+    total: number;
     itemsPerPage: number;
   };
 }

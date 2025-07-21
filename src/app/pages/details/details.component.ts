@@ -8,6 +8,14 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GamesService, GameResponse } from '../../services/games.service';
 
+declare global {
+  interface Window {
+    electronAPI: {
+      searchGameOnWikipedia: (gameName: string) => Promise<{ success: boolean, error?: string }>;
+    };
+  }
+}
+
 @Component({
   selector: 'app-details',
   standalone: true,
@@ -30,7 +38,7 @@ export class DetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private gamesService: GamesService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const gameId = this.route.snapshot.paramMap.get('id');
@@ -47,7 +55,7 @@ export class DetailsComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Erro ao carregar detalhes do jogo:', error);
+        console.error('Error loading game details:', error);
         this.loading = false;
       }
     });
@@ -59,5 +67,22 @@ export class DetailsComponent implements OnInit {
 
   onImageError(event: any): void {
     event.target.src = 'assets/placeholder.png';
+  }
+
+  async openWikipediaPage(): Promise<void> {
+    if (!this.game) return;
+
+    try {
+      if (window.electronAPI?.searchGameOnWikipedia) {
+        const result = await window.electronAPI.searchGameOnWikipedia(this.game.title);
+        if (!result.success) {
+          console.error('Erro ao abrir Wikipedia:', result.error);
+        }
+      } else {
+        console.error('API do Electron não disponível');
+      }
+    } catch (error) {
+      console.error('Erro ao chamar API do Electron:', error);
+    }
   }
 }

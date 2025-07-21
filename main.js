@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
+const WikipediaService = require('./services/wikipedia-service');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -8,13 +9,17 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
+            preload: path.join(__dirname, 'preload.js')
         }
     });
-
-    console.log('Loading index.html from:', path.join(__dirname, 'dist/games_wiki_test_app/browser/index.html'));
-    //   win.loadFile(path.join(__dirname, 'dist/games_wiki_test_app/browser/index.html'));
-    win.loadURL('http://localhost:4200');
+    
+    win.loadFile(path.join(__dirname, 'dist/games_wiki_test_app/browser/index.html'));
+    // win.loadURL('http://localhost:4200');
 }
+
+ipcMain.handle('search-game-wikipedia', async (event, gameName) => {
+    return await WikipediaService.searchGame(gameName);
+});
 
 app.whenReady().then(createWindow);
 

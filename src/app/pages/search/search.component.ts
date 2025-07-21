@@ -74,7 +74,7 @@ export class SearchComponent implements OnInit {
     this.gamesService.searchGames(this.searchTerm, this.currentPage + 1, this.pageSize).subscribe({
       next: (response: GamesListResponse) => {
         this.games = response.data;
-        this.totalItems = response.pagination.totalItems;
+        this.totalItems = response.pagination.total;
         this.isLoading = false;
       },
       error: (error) => {
@@ -91,7 +91,7 @@ export class SearchComponent implements OnInit {
     this.gamesService.getAllGames({ page: this.currentPage + 1, limit: this.pageSize }).subscribe({
       next: (response: GamesListResponse) => {
         this.games = response.data;
-        this.totalItems = response.pagination.totalItems;
+        this.totalItems = response.pagination.total;
         this.isLoading = false;
       },
       error: (error) => {
