@@ -43,13 +43,13 @@ export class HomeComponent implements OnInit {
     
     this.gamesService.getAllGames({ page: 1, limit: 5 }).subscribe({
       next: (response) => {
-        this.games = response.data;
-        console.log('Jogos em destaque carregados:', response);
-        this.isLoading = false;
+      this.games = response.data;
+      console.log('Featured games loaded:', response);
+      this.isLoading = false;
       },
       error: (error) => {
-        console.error('Erro ao carregar jogos em destaque:', error);
-        this.isLoading = false;
+      console.error('Error loading featured games:', error);
+      this.isLoading = false;
       }
     });
   }

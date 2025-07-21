@@ -40,7 +40,7 @@ export class SearchComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private gamesService: GamesService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -58,10 +58,10 @@ export class SearchComponent implements OnInit {
       this.clearSearch();
       return;
     }
-    
+
     this.currentPage = 0;
-    this.router.navigate(['/search'], { 
-      queryParams: { q: this.searchTerm } 
+    this.router.navigate(['/search'], {
+      queryParams: { q: this.searchTerm }
     });
   }
 
@@ -70,7 +70,7 @@ export class SearchComponent implements OnInit {
 
     this.isLoading = true;
     this.hasSearched = true;
-    
+
     this.gamesService.searchGames(this.searchTerm, this.currentPage + 1, this.pageSize).subscribe({
       next: (response: GamesListResponse) => {
         this.games = response.data;
@@ -87,7 +87,7 @@ export class SearchComponent implements OnInit {
   loadAllGames() {
     this.isLoading = true;
     this.hasSearched = true;
-    
+
     this.gamesService.getAllGames({ page: this.currentPage + 1, limit: this.pageSize }).subscribe({
       next: (response: GamesListResponse) => {
         this.games = response.data;
@@ -95,7 +95,7 @@ export class SearchComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Erro ao carregar jogos:', error);
+        console.error('Error loading games:', error);
         this.isLoading = false;
       }
     });
@@ -110,7 +110,7 @@ export class SearchComponent implements OnInit {
   onPageChange(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    
+
     if (this.searchTerm.trim()) {
       this.performSearch();
     } else {
