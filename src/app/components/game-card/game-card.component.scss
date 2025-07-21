@@ -1,0 +1,25 @@
+.game-card {
+  max-width: 280px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  mat-card-header {
+    padding-bottom: 1rem;
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ff9800;
+    font-weight: bold;
+
+    mat-icon {
+      font-size: 1.2rem;
+    }
+  }
+}
