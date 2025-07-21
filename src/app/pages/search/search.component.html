@@ -1,1 +1,58 @@
-<p>search works!</p>
+<div class="search-container">
+
+    <div class="header-section">
+        <button mat-icon-button class="back-button" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>Search Games</h1>
+    </div>
+
+    <div class="search-section">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search games...</mat-label>
+            <input matInput [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
+            <button *ngIf="searchTerm" matSuffix mat-icon-button (click)="clearSearch()" class="clear-button">
+                <mat-icon>clear</mat-icon>
+            </button>
+            <button matSuffix mat-mini-fab (click)="onSearch()" class="search-button">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
+    <div class="content-wrapper">
+        <div *ngIf="isLoading" class="loading-container">
+            <mat-spinner></mat-spinner>
+            <p>Loading games...</p>
+        </div>
+
+        <div *ngIf="hasSearched && !isLoading && games.length === 0" class="no-results">
+            <mat-icon class="no-results-icon">search_off</mat-icon>
+            <h3>No games found</h3>
+            <p>Try searching with different keywords</p>
+        </div>
+
+        <div *ngIf="!isLoading && games.length > 0" class="results-section">
+            <div class="results-header">
+                <h2>{{ searchTerm ? 'Search Results' : 'All Games' }}</h2>
+                <div class="results-info">
+                    <span class="results-count">{{ totalItems }} games found</span>
+                    <button *ngIf="searchTerm" mat-button (click)="clearSearch()" class="show-all-button">
+                        <mat-icon>list</mat-icon>
+                        Show All Games
+                    </button>
+                </div>
+            </div>
+
+            <div class="games-grid">
+                <app-game-card *ngFor="let game of games; trackBy: trackByGameId" [game]="game">
+                </app-game-card>
+            </div>
+
+            <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[12, 24, 48]"
+                [pageIndex]="currentPage" (page)="onPageChange($event)" showFirstLastButtons class="paginator">
+            </mat-paginator>
+            
+        </div>
+    </div>
+</div>

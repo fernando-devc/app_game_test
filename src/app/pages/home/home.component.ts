@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,7 +29,10 @@ export class HomeComponent implements OnInit {
   games: (Game | GameResponse)[] = [];
   isLoading = false;
 
-  constructor(private gamesService: GamesService) {}
+  constructor(
+    private gamesService: GamesService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadFeaturedGames();
@@ -52,22 +56,15 @@ export class HomeComponent implements OnInit {
 
   onSearch() {
     if (!this.searchTerm.trim()) {
-      this.loadFeaturedGames();
       return;
     }
 
-    this.isLoading = true;
-    
-    this.gamesService.searchGames(this.searchTerm, 1, 5).subscribe({
-      next: (response) => {
-        this.games = response.data;
-        this.isLoading = false;
-        console.log('Buscando por:', this.searchTerm);
-      },
-      error: (error) => {
-        console.error('Erro ao buscar jogos:', error);
-        this.isLoading = false;
-      }
+    this.router.navigate(['/search'], { 
+      queryParams: { q: this.searchTerm } 
     });
+  }
+
+  goToAllGames() {
+    this.router.navigate(['/search']);
   }
 }

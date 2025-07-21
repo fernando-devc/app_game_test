@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { GameCardComponent, Game } from '../game-card/game-card.component';
 import { GameResponse } from '../../services/games.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -51,6 +52,8 @@ export class GamesSliderComponent implements AfterViewInit, OnDestroy {
     ]
   };
 
+  constructor(private router: Router) {}
+
   ngAfterViewInit() {
     setTimeout(() => {
       this.initializeSlick();
@@ -92,7 +95,7 @@ export class GamesSliderComponent implements AfterViewInit, OnDestroy {
   }
 
   onSeeMore() {
-    console.log('Ver mais jogos');
+    this.router.navigate(['/search']);
   }
 
   trackByGameId(index: number, game: Game | GameResponse): any {
