@@ -29,10 +29,7 @@ npm run build
 
 ### Distribuição
 ```bash
-# Geral
 npm run dist
-
-# Por plataforma
 npm run dist:linux
 npm run dist:win
 npm run dist:mac
