@@ -1,17 +1,17 @@
 # Games Wiki Test App
 
-Aplicação Angular com Electron para pesquisar e visualizar informações de jogos.
+Angular application with Electron to search and view game information.
 
-## Tecnologias
+## Technologies
 
 - Angular 19
 - Electron 
 - Angular Material
 - Node.js
 
-## Como executar
+## How to run
 
-### Desenvolvimento
+### Development
 ```bash
 npm install
 npm start
@@ -27,7 +27,7 @@ npm run electron
 npm run build
 ```
 
-### Distribuição
+### Distribution
 ```bash
 npm run dist
 npm run dist:linux
@@ -35,35 +35,35 @@ npm run dist:win
 npm run dist:mac
 ```
 
-### Testes
+### Tests
 ```bash
 npm test
 ```
 
-## Funcionalidades
+## Features
 
-- ✅ Listagem de jogos
-- ✅ Busca por jogos
-- ✅ Detalhes do jogo
-- ✅ Integração com Wikipedia
-- ✅ Interface responsiva
+- ✅ Game listing
+- ✅ Game search
+- ✅ Game details
+- ✅ Wikipedia integration
+- ✅ Responsive interface
 
-## Estrutura
+## Structure
 
 ```
 src/
 ├── app/
-│   ├── components/     # Componentes reutilizáveis
-│   ├── pages/         # Páginas da aplicação
-│   └── services/      # Serviços
-├── main.js            # Processo principal Electron
-└── preload.js         # Script de preload
+│   ├── components/     # Reusable components
+│   ├── pages/         # Application pages
+│   └── services/      # Services
+├── main.js            # Electron main process
+└── preload.js         # Preload script
 ```
 
 ## API
 
 Base URL: `http://localhost:3000`
 
-- `GET /games` - Lista jogos
-- `GET /games/:id` - Detalhes do jogo
+- `GET /games` - List games
+- `GET /games/:id` - Game details
 - Query params: `search`, `page`, `limit`
