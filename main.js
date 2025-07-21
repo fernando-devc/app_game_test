@@ -10,9 +10,10 @@ function createWindow() {
             nodeIntegration: false,
             contextIsolation: true,
             preload: path.join(__dirname, 'preload.js')
-        }
+        },
+        autoHideMenuBar:true
     });
-    
+
     win.loadFile(path.join(__dirname, 'dist/games_wiki_test_app/browser/index.html'));
     // win.loadURL('http://localhost:4200');
 }
