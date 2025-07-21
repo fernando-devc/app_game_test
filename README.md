@@ -53,11 +53,11 @@ npm test
 ```
 src/
 ├── app/
-│   ├── components/     # Reusable components
-│   ├── pages/         # Application pages
-│   └── services/      # Services
-├── main.js            # Electron main process
-└── preload.js         # Preload script
+│   ├── components/  
+│   ├── pages/      
+│   └── services/   
+├── main.js         
+└── preload.js      
 ```
 
 ## API
