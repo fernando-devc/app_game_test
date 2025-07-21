@@ -1,15 +1,16 @@
 <mat-card class="game-card">
-  <mat-card-header>
-    <mat-card-title>{{ game.title }}</mat-card-title>
-  </mat-card-header>
-  <img mat-card-image [src]="game.image" [alt]="game.title">
+  <div class="image-container" [style.background-image]="'url(' + gameImage + ')'">
+    <div class="title-overlay">
+      <mat-card-title>{{ gameTitle }}</mat-card-title>
+    </div>
+  </div>
   <mat-card-content>
     <div class="rating">
       <mat-icon>star</mat-icon>
-      <span>{{ game.rating }}</span>
+      <span>{{ gameRating }}</span>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button color="primary">Ver Detalhes</button>
+    <button mat-button color="primary" (click)="viewDetails()">Ver Detalhes</button>
   </mat-card-actions>
 </mat-card>

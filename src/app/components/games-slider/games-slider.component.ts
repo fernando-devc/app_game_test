@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { GameCardComponent, Game } from '../game-card/game-card.component';
+import { GameResponse } from '../../services/games.service';
 
 declare var $: any;
 
@@ -13,7 +14,7 @@ declare var $: any;
   styleUrl: './games-slider.component.scss'
 })
 export class GamesSliderComponent implements AfterViewInit, OnDestroy {
-  @Input() games: Game[] = [];
+  @Input() games: (Game | GameResponse)[] = [];
   @Input() title = 'Jogos em Destaque';
   @ViewChild('slickCarousel', { static: false }) slickCarousel!: ElementRef;
 
@@ -51,14 +52,30 @@ export class GamesSliderComponent implements AfterViewInit, OnDestroy {
   };
 
   ngAfterViewInit() {
-    if (typeof $ !== 'undefined' && this.slickCarousel) {
-      $(this.slickCarousel.nativeElement).slick(this.slickConfig);
+    setTimeout(() => {
+      this.initializeSlick();
+    }, 100);
+  }
+
+  private initializeSlick() {
+    if (typeof $ !== 'undefined' && this.slickCarousel && this.games.length > 0) {
+      const carousel = $(this.slickCarousel.nativeElement);
+      if (carousel.hasClass('slick-initialized')) {
+        carousel.slick('unslick');
+      }
+      carousel.slick(this.slickConfig);
+      setTimeout(() => {
+        carousel.slick('refresh');
+      }, 50);
     }
   }
 
   ngOnDestroy() {
     if (typeof $ !== 'undefined' && this.slickCarousel) {
-      $(this.slickCarousel.nativeElement).slick('unslick');
+      const carousel = $(this.slickCarousel.nativeElement);
+      if (carousel.hasClass('slick-initialized')) {
+        carousel.slick('unslick');
+      }
     }
   }
 
@@ -76,5 +93,9 @@ export class GamesSliderComponent implements AfterViewInit, OnDestroy {
 
   onSeeMore() {
     console.log('Ver mais jogos');
+  }
+
+  trackByGameId(index: number, game: Game | GameResponse): any {
+    return game.id || index;
   }
 }

@@ -1,4 +1,4 @@
-<div class="slider-section">
+<div class="slider-section" *ngIf="games && games.length > 0">
   <div class="slider-header">
     <h2>{{ title }}</h2>
     <div class="navigation-buttons">
@@ -16,7 +16,7 @@
   
   <div class="games-slider">
     <div #slickCarousel class="slick-carousel">
-      <div *ngFor="let game of games" class="slide-item">
+      <div *ngFor="let game of games; trackBy: trackByGameId" class="slide-item">
         <app-game-card [game]="game"></app-game-card>
       </div>
     </div>

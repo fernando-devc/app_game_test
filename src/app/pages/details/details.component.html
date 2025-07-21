@@ -1,1 +1,95 @@
-<p>details works!</p>
+<div class="details-container" *ngIf="game">
+  <div class="header-section">
+    <button mat-icon-button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="header-title">Game Details</span>
+  </div>
+
+  <div class="content-wrapper">
+    <h1 class="game-title">{{ game.title }}</h1>
+    
+    <div class="game-info-line">
+      <span class="release-year">{{ game.releaseDate | date:'yyyy' }}</span>
+      <span class="separator">•</span>
+      <span class="developer">{{ game.developer }}</span>
+      <span class="separator">•</span>
+      <div class="rating-display">
+        <mat-icon class="star-icon">star</mat-icon>
+        <span>{{ game.rating }}</span>
+      </div>
+    </div>
+
+    <mat-card class="image-card">
+      <img 
+        [src]="game.imageUrl" 
+        [alt]="game.title"
+        class="game-image"
+        (error)="onImageError($event)"
+      />
+      <div class="image-overlay">
+        <div class="genres-container">
+          <mat-chip-set>
+            <mat-chip *ngFor="let genre of game.genres">{{ genre }}</mat-chip>
+          </mat-chip-set>
+        </div>
+        <div class="director-info">
+          <span>Published by {{ game.publisher }}</span>
+        </div>
+      </div>
+    </mat-card>
+
+    <div class="bottom-section">
+      <mat-card class="synopsis-card">
+        <mat-card-header>
+          <mat-card-title>Synopsis</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ game.description }}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="side-info">
+        <button mat-raised-button color="primary" class="action-button">
+          <mat-icon>open_in_new</mat-icon>
+          Open wikipedia page
+        </button>
+
+        <mat-card class="rating-card">
+          <mat-card-content>
+            <div class="rating-header">Game Rating</div>
+            <div class="rating-value">
+              <mat-icon class="rating-star">star</mat-icon>
+              <span class="rating-number">{{ game.rating }}</span>
+              <span class="rating-total">/10</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="platforms-card">
+          <mat-card-header>
+            <mat-card-title>Platforms</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-chip-set>
+              <mat-chip *ngFor="let platform of game.platforms">{{ platform }}</mat-chip>
+            </mat-chip-set>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!game && !loading" class="error-container">
+  <mat-card>
+    <mat-card-content>
+      <p>Jogo não encontrado.</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="loading" class="loading-container">
+  <mat-spinner></mat-spinner>
+  <p>Carregando...</p>
+</div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { GamesSliderComponent } from '../../components/games-slider/games-slider.component';
 import { Game } from '../../components/game-card/game-card.component';
+import { GamesService, GameResponse } from '../../services/games.service';
 
 @Component({
   selector: 'app-home',
@@ -22,21 +23,51 @@ import { Game } from '../../components/game-card/game-card.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   searchTerm = '';
-  
-  games: Game[] = [
-    { id: 1, title: 'The Witcher 3', image: 'https://via.placeholder.com/300x200', rating: 9.5 },
-    { id: 2, title: 'Cyberpunk 2077', image: 'https://via.placeholder.com/300x200', rating: 8.5 },
-    { id: 3, title: 'Red Dead Redemption 2', image: 'https://via.placeholder.com/300x200', rating: 9.0 },
-    { id: 4, title: 'GTA V', image: 'https://via.placeholder.com/300x200', rating: 8.8 },
-    { id: 5, title: 'Elden Ring', image: 'https://via.placeholder.com/300x200', rating: 9.2 },
-    { id: 6, title: 'God of War', image: 'https://via.placeholder.com/300x200', rating: 9.1 },
-    { id: 7, title: 'Horizon Zero Dawn', image: 'https://via.placeholder.com/300x200', rating: 8.7 },
-    { id: 8, title: 'Spider-Man', image: 'https://via.placeholder.com/300x200', rating: 8.9 }
-  ];
+  games: (Game | GameResponse)[] = [];
+  isLoading = false;
+
+  constructor(private gamesService: GamesService) {}
+
+  ngOnInit() {
+    this.loadFeaturedGames();
+  }
+
+  loadFeaturedGames() {
+    this.isLoading = true;
+    
+    this.gamesService.getAllGames({ page: 1, limit: 5 }).subscribe({
+      next: (response) => {
+        this.games = response.data;
+        console.log('Jogos em destaque carregados:', response);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar jogos em destaque:', error);
+        this.isLoading = false;
+      }
+    });
+  }
 
   onSearch() {
-    console.log('Buscando por:', this.searchTerm);
+    if (!this.searchTerm.trim()) {
+      this.loadFeaturedGames();
+      return;
+    }
+
+    this.isLoading = true;
+    
+    this.gamesService.searchGames(this.searchTerm, 1, 5).subscribe({
+      next: (response) => {
+        this.games = response.data;
+        this.isLoading = false;
+        console.log('Buscando por:', this.searchTerm);
+      },
+      error: (error) => {
+        console.error('Erro ao buscar jogos:', error);
+        this.isLoading = false;
+      }
+    });
   }
 }
